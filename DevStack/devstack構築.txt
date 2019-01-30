@@ -1,0 +1,117 @@
+yum -y update
+yum -y erase PyYAML.x86_64
+yum -y install git
+
+
+
+####controller
+cat << EOT > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
+IPADDR=192.168.100.1
+NETMASK=192.168.100.0
+DEVICE=eth1
+ONBOOT=yes
+EOT
+
+####compute
+cat << EOT > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
+IPADDR=192.168.100.2
+NETMASK=192.168.100.0
+DEVICE=eth1
+ONBOOT=yes
+EOT
+
+
+####compute2
+#cat << EOT > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
+#IPADDR=192.168.100.3
+#NETMASK=192.168.100.0
+#DEVICE=eth1
+#ONBOOT=yes
+#EOT
+
+service network restart
+### コントローラーノードのIP
+ping -c 5 192.168.100.1
+### コンピュートノードのIP
+ping -c 5 192.168.100.2
+
+
+
+useradd -s /bin/bash -d /opt/stack -m stack
+echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+su - stack
+
+cd
+git clone https://git.openstack.org/openstack-dev/devstack
+
+cd
+git clone https://github.com/josug-book1-materials/quick-devstack.git
+
+
+cd ~/devstack
+
+
+
+#########controller
+cat << EOT > local.conf 2>&1
+[[local|localrc]]
+#RECLONE=True
+MULTI_HOST=True
+SERVICE_HOST=192.168.100.1
+
+enable_service key
+enable_service n-api n-crt n-obj n-cond n-sch n-novnc n-xvnc n-cauth
+enable_service g-api g-reg
+enable_service c-sch c-api
+enable_service neutron q-svc q-agt q-dhcp q-l3 q-meta
+enable_service horizon
+enable_service rabbit
+enable_service mysql
+
+ADMIN_PASSWORD=RDXtora@0354957321
+MYSQL_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=$ADMIN_PASSWORD
+
+EOT
+#########
+
+
+
+#########compute
+cat << EOT > local.conf 2>&1
+[[local|localrc]]
+MULTI_HOST=True
+SERVICE_HOST=192.168.100.1
+MYSQL_HOST=$SERVICE_HOST
+RABBIT_HOST=$SERVICE_HOST
+ENABLED_SERVICES=n-cpu,rabbit,q-agt
+
+HOST_IP=192.168.100.2
+
+ADMIN_PASSWORD=RDXtora@0354957321
+MYSQL_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=$ADMIN_PASSWORD
+
+NOVA_VNC_ENABLED=True
+NOVNCPROXY_URL="http://$SERVICE_HOST:6080/vnc_auto.html"
+VNCSERVER_LISTEN=$HOST_IP
+VNCSERVER_PROXYCLIENT_ADDRESS=$VNCSERVER_LISTEN
+
+EOT
+#########
+
+
+
+
+
+./stack.sh
+
+
+yum -y install openstack-utils
+
+
+

@@ -1,0 +1,44 @@
+■PackStackを使用してOpenstackをインストールする手順を記載する。
+■今回使用する構成は以下の通り。
+　※ConohaVPSを使用して2台サーバを作成
+　CPU：6コア
+　メモリ：8GB
+　SSD：50GB
+
+①VPS作成
+　VPSの作成方法はポチポチやれば完成する。
+　サーバ作成後、シャットダウンすること。
+
+②プライベートネットワークの追加
+　アドレスは何でもいいので、プライベートネットワークを作成する。
+　ネットワークのタブからプライベートネットワークを選択し、ポチポチやって作成。
+　作成したらネットワークにサーバを割り当てる。
+
+③全サーバを起動する
+
+④両方のサーバにSSH接続し、ネットワークマネージャーを無効にする。
+ systemctl stop NetworkManager
+ systemctl disable NetworkManager
+ systemctl start network
+ systemctl enable network
+
+⑤「02_openstack_install.sh」のIPアドレスを適切に置き換える。
+　片方のサーバ（コントローラーノード用のサーバ）の適当な場所に内容をコピーして実行する。
+例）sh 02_openstack_install.sh
+
+※置き換え対象のパラメータ（不要な個所は#でコメントアウトしてもいい）
+　163.44.174.123がコントローラーノード
+　150.95.175.190がコンピュート＋ネットワークノード
+  CONFIG_CONTROLLER_HOST=163.44.174.123
+  CONFIG_COMPUTE_HOSTS=150.95.175.190
+  CONFIG_NETWORK_HOSTS=150.95.175.190
+  CONFIG_STORAGE_HOST=163.44.174.123
+  CONFIG_SAHARA_HOST=163.44.174.123
+  CONFIG_SSL_CERT_SUBJECT_CN=163.44.174.123
+  CONFIG_SSL_CERT_SUBJECT_MAIL=admin@163.44.174.123
+  CONFIG_AMQP_HOST=163.44.174.123
+  CONFIG_MARIADB_HOST=163.44.174.123
+  CONFIG_KEYSTONE_LDAP_URL=ldap://163.44.174.123
+
+⑥完了したらダッシュボードにアクセスして動作確認
+　http://XX.XX.XX.XX/dashboad

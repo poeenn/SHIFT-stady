@@ -1,0 +1,6 @@
+https://docs.openstack.org/kolla-ansible/latest/user/quickstart.html
+https://docs.openstack.org/kolla-ansible/queens/user/multi-regions.html
+https://qiita.com/raichi/items/3efeae6685f7451f6257
+https://github.com/openstack/kolla-ansible
+
+

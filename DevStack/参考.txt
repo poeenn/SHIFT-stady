@@ -1,0 +1,5 @@
+https://github.com/rafiror/openstack/wiki/Devstack%E5%85%A5%E9%96%80
+https://qiita.com/AndesM/items/a1205a374d27683261ee
+https://keruru.net/2016/07/09/post-70/
+
+

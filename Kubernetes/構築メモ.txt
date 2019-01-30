@@ -1,0 +1,114 @@
+163.44.173.21
+150.95.211.33
+https://ops.jig-saw.com/techblog/virtualbox_centos_kubernetes/
+-------------------------------
+setenforce 0
+sed -i -e "s/^SELINUX=enforcing$/SELINUX=disabled/g" /etc/selinux/config
+
+###master
+firewall-cmd --new-zone k8s --permanent
+firewall-cmd --zone=k8s --set-target=ACCEPT --permanent 
+firewall-cmd --add-source=150.95.211.33 --zone=k8s --permanent
+firewall-cmd --reload
+###
+
+###worker
+firewall-cmd --new-zone k8s --permanent
+firewall-cmd --zone=k8s --set-target=ACCEPT --permanent 
+firewall-cmd --add-source=163.44.173.21 --zone=k8s --permanent
+firewall-cmd --reload
+###
+
+# masterとworkerのホスト名で名前解決できるようにhostsに設定する。（じゃないとwarningがでる）
+cat << EOT3 >> /etc/hosts 2>&1
+163.44.173.21 163-44-173-21
+150.95.211.33 150-95-211-33
+EOT3
+
+
+swapoff -a
+
+
+yum -y install yum-utils device-mapper-persistent-data lvm2
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+yum -y install docker-ce
+
+systemctl enable docker
+systemctl start docker
+
+
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+sysctl -w net.bridge.bridge-nf-call-ip6tables=1
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+sysctl -w net.bridge.bridge-nf-call-iptables=1
+
+
+
+cat << EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kube*
+EOF
+
+
+
+yum -y install kubeadm --disableexcludes=kubernetes
+systemctl enable kubelet
+systemctl restart kubelet
+
+
+----------------------------------------------------------------------
+masterのみ
+----------------------------------------------------------------------
+
+kubeadm init --apiserver-advertise-address 163.44.173.21 --pod-network-cidr 10.240.0.0/16
+###
+###kubeadm join {ip}:{port} -token {token} -discovery-token-ca-cert-hash sha256:{hash}
+###が表示されます。これはワーカーノード作成時に必要なのでメモしておきます。
+###
+
+
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+kubectl get nodes
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml
+
+kubectl get nodes
+
+
+
+----------------------------------------------------------------------
+workerのみ
+----------------------------------------------------------------------
+###{ip}、{port}、{token}、{hash}はマスターノード作成時にメモした値を利用します。
+##kubeadm join --token {token} {ip}:{port} --discovery-token-ca-cert-hash sha256:{hash}
+kubeadm join 163.44.173.21:6443 --token bj4w5o.6esskks2v3aaqb9a --discovery-token-ca-cert-hash sha256:f8b19ea7c2a3f25c3518868eee2391406061bfe3acfa61e27c15ea132160a5e4
+
+
+
+kubectl get nodes
+
+
+
+
+
+
+
+------dashbordコンテナ作成確認---------------------------------------------
+https://qiita.com/sugimount/items/689b7cd172c7eaf1235f
+
+
+wget https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+
+
+
