@@ -28,18 +28,18 @@ ___
 
 ## 構築＋その他
 1. CentOS minimalインストールと必要updateとinstall  
-  - CentOSの入手→CDかUSBか外付けHDD？  
-    - [Cisco Integrated Management Interface（CIM）](https://www.cisco.com/c/ja_jp/products/servers-unified-computing/ucs-c-series-integrated-management-controller/index.html)というのがあるらしい・・・サーバに付属している？  
+    - CentOSの入手→CDかUSBか外付けHDD？  
+      - [Cisco Integrated Management Interface（CIM）](https://www.cisco.com/c/ja_jp/products/servers-unified-computing/ucs-c-series-integrated-management-controller/index.html)というのがあるらしい・・・サーバに付属している？  
     - [cisco C240 M5インストールガイド](https://www.cisco.com/c/ja_jp/td/docs/unified_computing/ucs/c/hw/C240M5/install/C240M5/C240M5_chapter_01.html)
-  - テプラ作成、ケーブルの用意と内職、ラックマウント用のレール作る
-  - ラッキングする
+    - テプラ作成、ケーブルの用意と内職、ラックマウント用のレール作る
+    - ラッキングする
 2. NW設定  
-  - sshdの設定　→　permit root loginとかとか
+    - sshdの設定　→　permit root loginとかとか
 3. sudo権限グループとメンバsudo権限は別途誰に与えるか決める。  
-  - ユーザ作成とsudoの設定（sudoers）  
-  設定方法は適当にググればでてくる[こことか](https://qiita.com/Esfahan/items/a159753d156d23baf180)[こことか](https://www.server-world.info/query?os=CentOS_7&p=initial_conf&f=8)
+    - ユーザ作成とsudoの設定（sudoers）  
+    設定方法は適当にググればでてくる[こことか](https://qiita.com/Esfahan/items/a159753d156d23baf180)[こことか](https://www.server-world.info/query?os=CentOS_7&p=initial_conf&f=8)
 4. 5ノードSSH導通　1台コントローラを決める。コントローラから他の4台へSSHできればよい。
-  - hostsに設定してpingとSSHで疎通確認
+    - hostsに設定してpingとSSHで疎通確認
 5. git,Ansible,pipインストール　Ansibleはpyenvベース。
-  - yumで入れるがAnsibleは[別の入れ方](https://qiita.com/ksugawara61/items/ba9a51ebfdaf8d1a1b48)で入れる。
+    - yumで入れるがAnsibleは[別の入れ方](https://qiita.com/ksugawara61/items/ba9a51ebfdaf8d1a1b48)で入れる。
 
