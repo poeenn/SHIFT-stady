@@ -108,7 +108,7 @@ OKならデプロイする
 kolla-ansible post-deploy
 ```
 
-## 完了したら以下のコマンドを実行してdemo用の環境を作成する
+## 完了したらdemo用の環境を作成する
 ```
 pip install python-openstackclient python-glanceclient python-neutronclient -I -U
 . /etc/kolla/admin-openrc.sh
