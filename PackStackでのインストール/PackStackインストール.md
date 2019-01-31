@@ -17,8 +17,7 @@ YYY.YYY.YYY.YYY
 eth1:  
 192.168.100.2/24  
 
-
-## hostsの追加
+### hostsの追加
 ```
 cat << EOT3 >> /etc/hosts 2>&1
 XXX.XXX.XXX.XXX master
@@ -26,8 +25,8 @@ YYY.YYY.YYY.YYY node
 EOT3
 ```
 
-## network設定
-### master
+### network設定
+#### master用
 ```
 cat << EOT4 > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
 TYPE="Ethernet"
@@ -39,7 +38,7 @@ ONBOOT="yes"
 EOT4
 ```
 
-### node
+#### node用
 ```
 cat << EOT4 > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
 TYPE="Ethernet"
@@ -69,6 +68,9 @@ systemctl enable network
 ```
 
 
+これ以降はすべてコントローラーノードで実施する。
+---
+
 ### 各種パッケージのインストール
 ```
 yum update -y
@@ -79,7 +81,9 @@ yum update -y
 ```
 
 ### answerファイルの生成と編集
+```
 packstack --gen-answer-file answer.txt
+```
 
 ### answerを全て置き換える
 ```
@@ -1450,9 +1454,9 @@ EOT2
 ```
 packstack --answer-file answer.txt
 ```
+20-30分ほど待って、特にエラーがでなければ成功
 
+### 最後にopenstackのコマンド類をインストール
+```
 yum -y install openstack-utils
-
-
-
-
+```
