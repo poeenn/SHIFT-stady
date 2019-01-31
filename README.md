@@ -42,6 +42,6 @@ ___
     - hostsに設定してpingとSSHで疎通確認
 5. git,Ansible,pipインストール　Ansibleはpyenvベース。
     - yumで入れるがAnsibleは[別の入れ方](https://qiita.com/ksugawara61/items/ba9a51ebfdaf8d1a1b48)で入れる。  
-    -どうやらbash.profileを変更する必要があるらしい。ユーザ毎に直さないといけないので、超めんどい。  
-    ユーザ作成時のデフォルトプロファイルを変更できるはずなので、やり方調べとく。
+      - どうやらbash.profileを変更する必要があるらしいが、ユーザ毎に直さないといけないので、超めんどい。  
+        ユーザ作成時のデフォルトプロファイルを変更できるはずなので、やり方調べとく。
    
