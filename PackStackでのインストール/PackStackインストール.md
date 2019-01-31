@@ -1,14 +1,88 @@
-# yum
+# packstackでの2ノード環境構築
+PackStackを使用してコントローラ1ノード、コンピュート1ノードでOpenStackの環境構築を実施する。
+サーバはConohaVPSを使用する。
+
+## 環境情報
+コントローラ：  
+eth0:  
+XXX.XXX.XXX.XXX  
+
+eth1:  
+192.168.100.1/24  
+
+コンピュート：  
+eth0:  
+YYY.YYY.YYY.YYY  
+
+eth1:  
+192.168.100.2/24  
+
+
+## hostsの追加
+```
+cat << EOT3 >> /etc/hosts 2>&1
+XXX.XXX.XXX.XXX master
+YYY.YYY.YYY.YYY node
+EOT3
+```
+
+## network設定
+### master
+```
+cat << EOT4 > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
+TYPE="Ethernet"
+BOOTPROTO="none"
+IPADDR="192.168.100.1"
+NETMASK="255.255.255.0"
+DEVICE="eth1"
+ONBOOT="yes"
+EOT4
+```
+
+### node
+```
+cat << EOT4 > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
+TYPE="Ethernet"
+BOOTPROTO="none"
+IPADDR="192.168.100.2"
+NETMASK="255.255.255.0"
+DEVICE="eth1"
+ONBOOT="yes"
+EOT4
+```
+
+### ルーティングは勝手に追加されるが一応確認しておく
+```
+route
+```
+入っていなければ以下のコマンドを実行。
+```
+route add -net 192.168.100.0 netmask 255.255.255.0 eth1
+```
+
+### NetworkManagerの無効化とnetwork restart
+```
+systemctl stop NetworkManager
+systemctl disable NetworkManager
+systemctl restart network
+systemctl enable network
+```
+
+
+### 各種パッケージのインストール
+```
 yum update -y
 yum install -y http://rdo.fedorapeople.org/rdo-release.rpm
 yum -y install centos-release-openstack-rocky epel-release 
 yum -y install openstack-packstack python-pip
 yum update -y
-# packstack
-# generate setting file: answer.txt
+```
 
+### answerファイルの生成と編集
 packstack --gen-answer-file answer.txt
 
+### answerを全て置き換える
+```
 cat << EOT2 > answer.txt 2>&1
 [general]
 
@@ -20,7 +94,7 @@ CONFIG_SSH_KEY=/root/.ssh/id_rsa.pub
 
 # Default password to be used everywhere (overridden by passwords set
 # for individual services or users).
-CONFIG_DEFAULT_PASSWORD=RDXtora@0354957321
+CONFIG_DEFAULT_PASSWORD=
 
 # The amount of service workers/threads to use for each service.
 # Useful to tweak when you have memory constraints. Defaults to the
@@ -103,14 +177,14 @@ CONFIG_DEBUG_MODE=n
 
 # Server on which to install OpenStack services specific to the
 # controller role (for example, API servers or dashboard).
-CONFIG_CONTROLLER_HOST=controller
+CONFIG_CONTROLLER_HOST=master
 
 # List the servers on which to install the Compute service.
-CONFIG_COMPUTE_HOSTS=conpute
+CONFIG_COMPUTE_HOSTS=node
 
 # List of servers on which to install the network service such as
 # Compute networking (nova network) or OpenStack Networking (neutron).
-CONFIG_NETWORK_HOSTS=conpute
+CONFIG_NETWORK_HOSTS=node
 
 # Specify 'y' if you want to use VMware vCenter as hypervisor and
 # storage; otherwise, specify 'n'. ['y', 'n']
@@ -146,11 +220,11 @@ CONFIG_VCENTER_CLUSTER_NAMES=
 
 # (Unsupported!) Server on which to install OpenStack services
 # specific to storage servers such as Image or Block Storage services.
-CONFIG_STORAGE_HOST=controller
+CONFIG_STORAGE_HOST=master
 
 # (Unsupported!) Server on which to install OpenStack services
 # specific to OpenStack Data Processing (sahara).
-CONFIG_SAHARA_HOST=controller
+CONFIG_SAHARA_HOST=master
 
 # Comma-separated list of URLs for any additional yum repositories,
 # to use for installation.
@@ -283,7 +357,7 @@ CONFIG_SSL_CERT_SUBJECT_MAIL=admin@150-95-130-49
 CONFIG_AMQP_BACKEND=rabbitmq
 
 # IP address of the server on which to install the AMQP service.
-CONFIG_AMQP_HOST=controller
+CONFIG_AMQP_HOST=master
 
 # Specify 'y' to enable SSL for the AMQP service. ['y', 'n']
 CONFIG_AMQP_ENABLE_SSL=n
@@ -305,17 +379,17 @@ CONFIG_AMQP_AUTH_PASSWORD=PW_PLACEHOLDER
 # installation was not specified in CONFIG_MARIADB_INSTALL, specify
 # the IP address of an existing database server (a MariaDB cluster can
 # also be specified).
-CONFIG_MARIADB_HOST=controller
+CONFIG_MARIADB_HOST=master
 
 # User name for the MariaDB administrative user.
 CONFIG_MARIADB_USER=root
 
 # Password for the MariaDB administrative user.
-CONFIG_MARIADB_PW=RDXtora@0354957321
+CONFIG_MARIADB_PW=
 
 # Password to use for the Identity service (keystone) to access the
 # database.
-CONFIG_KEYSTONE_DB_PW=RDXtora@0354957321
+CONFIG_KEYSTONE_DB_PW=
 
 # Enter y if cron job to rotate Fernet tokens should be created.
 CONFIG_KEYSTONE_FERNET_TOKEN_ROTATE_ENABLE=True
@@ -335,10 +409,10 @@ CONFIG_KEYSTONE_ADMIN_EMAIL=root@localhost
 CONFIG_KEYSTONE_ADMIN_USERNAME=admin
 
 # Password to use for the Identity service 'admin' user.
-CONFIG_KEYSTONE_ADMIN_PW=RDXtora@0354957321
+CONFIG_KEYSTONE_ADMIN_PW=
 
 # Password to use for the Identity service 'demo' user.
-CONFIG_KEYSTONE_DEMO_PW=RDXtora@0354957321
+CONFIG_KEYSTONE_DEMO_PW=
 
 # Identity service API version string. ['v2.0', 'v3']
 CONFIG_KEYSTONE_API_VERSION=v3
@@ -351,7 +425,7 @@ CONFIG_KEYSTONE_TOKEN_FORMAT=FERNET
 CONFIG_KEYSTONE_IDENTITY_BACKEND=sql
 
 # URL for the Identity service LDAP backend.
-CONFIG_KEYSTONE_LDAP_URL=ldap://controller
+CONFIG_KEYSTONE_LDAP_URL=ldap://master
 
 # User DN for the Identity service LDAP backend.  Used to bind to the
 # LDAP server if the LDAP server does not allow anonymous
@@ -1315,7 +1389,7 @@ CONFIG_CEILOMETER_COORDINATION_BACKEND=redis
 CONFIG_ENABLE_CEILOMETER_MIDDLEWARE=n
 
 # IP address of the server on which to install the Redis server.
-CONFIG_REDIS_HOST=controller
+CONFIG_REDIS_HOST=master
 
 # Port on which the Redis server listens.
 CONFIG_REDIS_PORT=6379
@@ -1370,21 +1444,12 @@ CONFIG_MAGNUM_DB_PW=PW_PLACEHOLDER
 # service.
 CONFIG_MAGNUM_KS_PW=PW_PLACEHOLDER
 EOT2
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
+### packstackの実行
+```
 packstack --answer-file answer.txt
-
+```
 
 yum -y install openstack-utils
 
