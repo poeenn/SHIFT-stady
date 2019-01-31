@@ -28,7 +28,7 @@ ___
 
 ## 構築＋その他
 1. CentOS minimalインストールと必要updateとinstall  
-    - CentOSの入手→CDかUSBか外付けHDD？  
+    - CentOSの入手→CDかUSBか外付けHDD？そもそもCDドライブは搭載されていない・・・  
       - [Cisco Integrated Management Interface（CIM）](https://www.cisco.com/c/ja_jp/products/servers-unified-computing/ucs-c-series-integrated-management-controller/index.html)というのがあるらしい・・・サーバに付属している？  
     - [cisco C240 M5インストールガイド](https://www.cisco.com/c/ja_jp/td/docs/unified_computing/ucs/c/hw/C240M5/install/C240M5/C240M5_chapter_01.html)
     - テプラ作成、ケーブルの用意と内職、ラックマウント用のレール作る
