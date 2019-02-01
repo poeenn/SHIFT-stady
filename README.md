@@ -19,6 +19,7 @@ ___
 - ラック搭載図
   - 1ラックしか借りて？いない上に現状を見てみたら結構埋まっていたので、  
     書くかどうかは別としてどうやってマウントするか考える必要がある
+    - 結構ガチャガチャやらないとならなそう
 - hostname決める　→　図
 - ユーザ一覧
   - githubのユーザ名でよいと思う  
@@ -27,11 +28,11 @@ ___
     ただし、githubのメンバ以外にユーザを作成する必要がある場合、別途一覧を作成する
 - ユーザパスワードを決める
   - 初期パスワードとか期限どうするか・・・期限は無期限でいいと思うが初期パスワードからは変えてもらう
-- NETGEARのSWの環境設定（VLANとかPW）
+- NETGEARのSWの設定（VLANとかPW）
   - 設定マニュアルは[ここ](https://www.downloads.netgear.com/files/answer_media/jp/support/switch/manual/GS7xxT_SWA_J.pdf)  
   [インストール（物理）](https://www.downloads.netgear.com/files/answer_media/jp/support/switch/manual/XS712T_HIG_J.pdf)
 - IPアドレス一覧
-- PP一覧？→必要であれば
+
 
 
 ## 構築＋その他
