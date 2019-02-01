@@ -26,7 +26,8 @@ ___
 - ユーザパスワードを決める
   - 初期パスワードとか期限どうするか・・・期限は無期限でいいと思うが初期パスワードからは変えてもらう
 - NETGEARのSWの環境設定（VLANとかPW）
-  - マニュアルは[ここ](https://www.downloads.netgear.com/files/answer_media/jp/support/switch/manual/GS7xxT_SWA_J.pdf)
+  - 設定マニュアルは[ここ](https://www.downloads.netgear.com/files/answer_media/jp/support/switch/manual/GS7xxT_SWA_J.pdf)  
+  [インストール（物理）](https://www.downloads.netgear.com/files/answer_media/jp/support/switch/manual/XS712T_HIG_J.pdf)
 - IPアドレス一覧
 - PP一覧？→必要であれば
 
