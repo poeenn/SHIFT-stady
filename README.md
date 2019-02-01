@@ -19,7 +19,12 @@ ___
 - ラック搭載図
 - hostname決める
 - ユーザ一覧
-  - githubのユーザ名でよいと思う
+  - githubのユーザ名でよいと思う  
+  - アカウント名？（登録するときに決めるやつ）でユーザ作成する（変更できないはずだし・・・  ）  
+    今の方針だとたぶんメンバを消したりとかしないと思うので一覧は特に作成しない  
+    ただし、githubのメンバ以外にユーザを作成する必要がある場合、別途一覧を作成する
+- ユーザパスワードを決める
+  - 初期パスワードとか期限どうするか・・・期限は無期限でいいと思うが初期パスワードからは変えてもらう
 - NETGEARのSWの環境設定（VLANとかPW）
   - マニュアルは[ここ](https://www.downloads.netgear.com/files/answer_media/jp/support/switch/manual/GS7xxT_SWA_J.pdf)
 - IPアドレス一覧
@@ -41,7 +46,8 @@ ___
 4. 5ノードSSH導通　1台コントローラを決める。コントローラから他の4台へSSHできればよい。
     - hostsに設定してpingとSSHで疎通確認
 5. git,Ansible,pipインストール　Ansibleはpyenvベース。
-    - yumで入れるがAnsibleは[別の入れ方](https://qiita.com/ksugawara61/items/ba9a51ebfdaf8d1a1b48)で入れる。  
+    - yumで入れるがAnsibleは[別の入れ方](https://qiita.com/ksugawara61/items/ba9a51ebfdaf8d1a1b48)で入れる。
+    [ここも参考](https://keyamb.hatenablog.com/entry/2014/06/11/081650)
       - どうやらbash.profileを変更する必要があるらしいが、ユーザ毎に直さないといけないので、超めんどい。  
         ユーザ作成時のデフォルトプロファイルを変更できるはずなので、やり方調べとく。
-   
+
