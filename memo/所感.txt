@@ -1,27 +1,27 @@
-Openstack�̊��\�z�͂��낢��ȕ��@������B
-���ۂɍ\�z���Ă݂Ďv�������Ƃ��L�ڂ���B
+Openstackの環境構築はいろいろな方法がある。
+実際に構築してみて思ったことを記載する。
 
-�EPackStack
-�@All in one�ł��}���`�ł��\�z���e�ՁB
-�@yum�ŃC���X�g�[������answer�t�@�C����ҏW���邾���ō\�z����������B
-�@��answer�t�@�C���̃p�����[�^��gg��ΐ������Ă���y�[�W��������B
-�@�������A�A�b�v�O���[�h����ۂ͂��Ȃ��ρB�i�炵���j
-�@���Ȃ��Ƃ�Openstack���~���āA
-�@��������S�������Ă���A�b�v�O���[�h����̂�������ۂ��B
+・PackStack
+　All in oneでもマルチでも構築が容易。
+　yumでインストールしてanswerファイルを編集するだけで構築が完了する。
+　※answerファイルのパラメータはggれば説明しているページが見つかる。
+　ただし、アップグレードする際はかなり大変。（らしい）
+　少なくともOpenstackを停止して、いったん全部消してからアップグレードするのが無難っぽい。
+　OpenStackは年に2回アップデートが来るし、サポートされるのが最新と1個前のバージョンのみなので、バージョンアップが大変そう。
 
-�EKolla-Ansible
-�@Ansible���g�p����docker�R���e�i���Openstack���\�z����p�b�P�[�W�B
-�@Ansible�Adocker���킩���Ă��邱�Ƃ��O��Ȃ̂ŁA�~���������B
-�@PackStack���z�X�g�ɒ��ڃC���X�g�[������킯�ł͂Ȃ��̂ŁA�z�X�g������Ȃ��B
-�@Openstack��docker��ɍ\�z�����̂ŁA�����ł̓W�J���e�ՁB
-�@�����AAnsible���̂����\���G�i����������������Ȃ����j��
-�@�f�t�H���g��yml��ҏW���悤�Ƃ���ƒm�����K�v�B
-�@docker��ɍ\�z����̂ŃA�b�v�O���[�h�͗e�Ձi�̂͂��j
+・Kolla-Ansible
+　Ansibleを使用してdockerコンテナ上にOpenstackを構築するパッケージ。
+　Ansible、dockerがわかっていることが前提なので、敷居が高い。
+　PackStack等ホストに直接インストールするわけではないので、ホストが汚れない。
+　Openstackがdocker上に構築されるので、他環境での展開も容易。
+　ただ、Ansible自体が結構複雑（自分だけかもしれないが）で
+　デフォルトのymlを編集しようとするとAnsibleの知識が必要。
+　docker上に構築するのでアップグレードは容易（のはず）
 
-�EOpenstack-Ansible
-�@���m
-�@�P�ɕ����̃x�A���^���T�[�o��Ansible���g�p����Openstack�����\�z������́H
-�@PackStack�ō\�z����̂Ɖ����Ⴄ�̂��s���B
+・Openstack-Ansible
+　未知
+　単に複数のベアメタルサーバにAnsibleを使用してOpenstack環境を構築するもの？
+　PackStackで構築するのと何が違うのか不明。
 
 
 
