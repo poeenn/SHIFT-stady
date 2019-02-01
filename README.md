@@ -44,6 +44,7 @@ ___
     - ラッキングする
 2. NW設定  
     - sshdの設定　→　permit root loginとかとか
+    あと鍵の作成と配布して鍵で入れるようにする。じゃないとAnsibleのyml内にパスワードを入れなきゃならなくなる。
 3. sudo権限グループとメンバsudo権限は別途誰に与えるか決める。  
     - ユーザ作成とsudoの設定（sudoers）  
     設定方法は適当にググればでてくる[こことか](https://qiita.com/Esfahan/items/a159753d156d23baf180)[こことか](https://www.server-world.info/query?os=CentOS_7&p=initial_conf&f=8)
