@@ -1,8 +1,8 @@
 # ハードインストール手順
 1. CentOS minimalインストールと必要updateとinstall
   - CDドライブ？かUSBメモリとかからインストールする。  
-　インストールメディアは用意するor用意してもらう。  
-　で yum -y update  
+  インストールメディアは用意するor用意してもらう。  
+  で yum -y update  
 
 1. NW設定
   - L3SW
