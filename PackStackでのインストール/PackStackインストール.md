@@ -17,7 +17,7 @@ YYY.YYY.YYY.YYY
 eth1:  
 192.168.100.2/24  
 
-### hostsの追加
+hostsの追加
 ```
 cat << EOT3 >> /etc/hosts 2>&1
 XXX.XXX.XXX.XXX master
@@ -26,7 +26,7 @@ EOT3
 ```
 
 ### network設定
-#### master用
+master用
 ```
 cat << EOT4 > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
 TYPE="Ethernet"
@@ -38,7 +38,7 @@ ONBOOT="yes"
 EOT4
 ```
 
-#### node用
+node用
 ```
 cat << EOT4 > /etc/sysconfig/network-scripts/ifcfg-eth1 2>&1
 TYPE="Ethernet"
@@ -50,7 +50,7 @@ ONBOOT="yes"
 EOT4
 ```
 
-### ルーティングは勝手に追加されるが一応確認しておく
+ルーティングは勝手に追加されるが一応確認しておく
 ```
 route
 ```
@@ -59,7 +59,7 @@ route
 route add -net 192.168.100.0 netmask 255.255.255.0 eth1
 ```
 
-### NetworkManagerの無効化とnetwork restart
+NetworkManagerの無効化とnetwork restart
 ```
 systemctl stop NetworkManager
 systemctl disable NetworkManager
@@ -71,7 +71,7 @@ systemctl enable network
 これ以降はすべてコントローラーノードで実施する。
 ---
 
-### 各種パッケージのインストール
+各種パッケージのインストール
 ```
 yum update -y
 yum install -y http://rdo.fedorapeople.org/rdo-release.rpm
@@ -80,12 +80,12 @@ yum -y install openstack-packstack python-pip
 yum update -y
 ```
 
-### answerファイルの生成と編集
+answerファイルの生成と編集
 ```
 packstack --gen-answer-file answer.txt
 ```
 
-### answerを全て置き換える
+answerを全て以下に置き換える
 ```
 cat << EOT2 > answer.txt 2>&1
 [general]
@@ -1450,13 +1450,15 @@ CONFIG_MAGNUM_KS_PW=PW_PLACEHOLDER
 EOT2
 ```
 
-### packstackの実行
+
+
+packstackの実行
 ```
 packstack --answer-file answer.txt
 ```
 20-30分ほど待って、特にエラーがでなければ成功
 
-### 最後にopenstackのコマンド類をインストール
+最後にopenstackのコマンド類をインストール
 ```
 yum -y install openstack-utils
 ```
