@@ -1,5 +1,6 @@
 # SHIFT-stady
-SHIFT用のメモ
+SHIFT用のメモ  
+設計内容は[wiki参照](https://github.com/poeenn/SHIFT-stady/wiki)
 ___
 ## 依頼内容
 5台分のNW構成図等々設備設計資料を作成すること。  
