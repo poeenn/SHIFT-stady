@@ -37,7 +37,9 @@
 　　ユーザはansibleで  
 
 5. git,Ansible,pipインストール　Ansibleはpyenvベース
-  - 詳細は別
+  - 詳細は別  
+  [Ansible側で指定する方法参考](https://qiita.com/kinpira/items/f775b08884535e948213)  
+  [公式](https://docs.ansible.com/ansible/2.4/python_3_support.html)
 
 
 
