@@ -8,7 +8,7 @@
 `XS716T`  
 * 仕様  
 [データシート](https://jp.netgear.com/images/datasheet/switches/SmartSwitches/XS708T_XS712Tv2_XS716T_XS728T_XS748T_DS.pdf)  
-* ファームウェア
+* ファームウェア  
 `6.6.3.3`  
 [サポートページ](https://www.jp.netgear.com/support/product/XS716T.aspx#MIB%20Version%206.6.3.3)  
 
