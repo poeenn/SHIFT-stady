@@ -1,6 +1,6 @@
 変更する設定値のみ記載する。  
 その他の機能は使用しないため、デフォルト値とする。  
-
+     
 参考：[設定マニュアル](https://www.downloads.netgear.com/files/answer_media/jp/support/switch/manual/GS7xxT_SWA_J.pdf)  
 
 
