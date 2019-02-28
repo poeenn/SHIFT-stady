@@ -1,0 +1,21 @@
+yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+
+yum install -y zlib tk-devel tcl-devel ncurses-devel gdbm-devel db4-devel readline-devel zlib-devel bzip2-devel sqlite-devel openssl-devel libXext.x86_64 libSM.x86_64 libXrender.x86_64 gcc gcc-c++ libffi-devel python-devel patch bzip2 readline sqlite git epel-release python-pip python36u python36u-devel python36u-libs python36u-pip
+
+ln -s /usr/bin/python3.6 /usr/bin/python3
+
+pip3.6 install --upgrade pip
+pip --version
+pip install setuptools
+pip install virtualenv
+
+cd 
+virtualenv ansible
+cd ansible
+source ./bin/activate
+pip install ansible
+ansible --version|grep python
+deactivate
+
+
+
