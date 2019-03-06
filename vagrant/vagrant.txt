@@ -1,63 +1,87 @@
+参考サイト
 https://knowledge.sakura.ad.jp/2535/
 https://qiita.com/it__ssei/items/18d54746be2dac56988f
 
+パッケージインストール
+ yum install -y epel-release
+ yum install -y qemu-kvm libvirt libvirt-devel gcc patch wget rsync
+yum -y install libguestfs libguestfs-tools libguestfs-tools-c libvirt libvirt-client python-virtinst qemu-kvm virt-manager virt-top virt-viewer
+ yum update -y
 
-yum install -y qemu-kvm libvirt libvirt-devel gcc patch wget
-yum install -y epel-release
+#libvirtのみで起動する場合（おためし用）
+# yum install -y centos-release-scl
+# scl enable sclo-vagrant1 bash
+
+vagrantパッケージのインストール
+ cd /tmp
+ wget https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.rpm
+ yum -y install vagrant_2.2.4_x86_64.rpm
+ vagrant plugin install vagrant-kvm
+ vagrant plugin install vagrant-libvirt
 
 
-------
-cd /etc/yum.repos.d/
-wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
-cd 
-yum install -y dkms
-yum update -y
-
-yum install -y VirtualBox-6.0.x86_64
-
-
-/usr/lib/virtualbox/vboxdrv.sh setup
--------
-
-
-cd /tmp
-
-wget https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.rpm
-
-yum -y install vagrant_2.2.4_x86_64.rpm
+vagrant用のディレクトリ作成
+ mkdir ~/vmcentos
+ cd ~/vmcentos
+ pwd
 
 
 
 
-vagrant box add centos7 http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1812_01.Libvirt.box
+cat /proc/cpuinfo | grep vmx
+echo options kvm_intel nested=1 >> /etc/modprobe.d/kvm-nested.conf
+modprobe -r kvm_intel
+modprobe  kvm_intel
+cat /sys/module/kvm_intel/parameters/nested
 
-vagrant init centos7
 
 
-cat << EOF > Vagrantfile
-Vagrant.configure(2) do |config|
+
+vagrant box addでひな形を持ってくる
+ vagrant box add centos/7
+
+systemctl start libvirtd
+systemctl enable libvirtd
+
+
+virtualbox関連のパッケージインストール
+ cd /etc/yum.repos.d/
+ wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+ cd ~/vmcentos
+ yum install -y dkms
+ yum install -y VirtualBox-6.0.x86_64
+
+setupシェルの実行
+ /usr/lib/virtualbox/vboxdrv.sh setup
+
+初期設定
+ vagrant init centos7
+
+vagrantで作成するVMの設定ファイルを編集
+  cat << EOF > Vagrantfile
+  Vagrant.configure(2) do |config|
   config.vm.box = "centos/7"
-      config.vm.provider :libvirt do |domain|
-      domain.memory = 2048
-      domain.cpus = 2
-      domain.driver = 'kvm'
-  end
-  config.vm.network "public_network", :bridge => "virbr0"
-end
+     config.vm.box_version = "1902.01"
+     config.vm.provider :kvm do |domain|
+     domain.memory = 2048
+     domain.cpus = 2
+   end
+   config.vm.network "public_network", :bridge => "virbr0"
+ end
 EOF
 
 
+VMの作成
+ vagrant up --provider=libvirt
 
-vagrant up
+終わったらvagrantsshでVMに入る
+ vagrant ssh
 
-vagrant ssh
+停止
+ vagrant halt
 
+ステータス確認
+ vagrant status
 
-vagrant halt
-
-
-
-vagrant status
-
-vagrant destroy ???
-
+削除（???にはstatusで確認した名前を入れるデフォルトはdefault）
+ vagrant destroy ???
