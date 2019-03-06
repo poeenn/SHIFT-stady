@@ -34,7 +34,11 @@ pwd
 vagrant box add centos7 http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1812_01.Libvirt.box
 ```
 
-
+* service実行
+```
+systemctl start libvirtd
+systemctl enable libvirtd
+```
 
 * virtualbox関連のパッケージインストール
 ```
