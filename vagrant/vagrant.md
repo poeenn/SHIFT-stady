@@ -31,7 +31,8 @@ pwd
 
 * vagrant box addでひな形を持ってくる
 ```
-vagrant box add centos7 http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1812_01.Libvirt.box
+ vagrant box add centos/7
+
 ```
 
 * service実行
@@ -58,20 +59,21 @@ yum install -y VirtualBox-6.0.x86_64
 
 * 初期設定
 ```
-vagrant init centos7
+vagrant init centos/7
 ```
 
 * vagrantで作成するVMの設定ファイルを編集
 ```
 cat << EOF > Vagrantfile
 Vagrant.configure(2) do |config|
-  config.vm.box = "centos7"
-      config.vm.provider :libvirt do |domain|
-      domain.memory = 2048
-      domain.cpus = 2
-      domain.driver = 'kvm'
-  end
-  config.vm.network "public_network", :bridge => "virbr0"
+ config.vm.box = "centos/7"
+ config.vm.box_version = "1902.01"
+ config.vm.provider :libvirt do |domain|
+ domain.memory = 2048
+ domain.cpus = 2
+ domain.driver = 'kvm'
+end
+config.vm.network "public_network", :bridge => "virbr0"
 end
 EOF
 ```
