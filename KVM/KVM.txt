@@ -1,5 +1,5 @@
-¡KVMƒCƒ“ƒXƒg[ƒ‹
-¡‰¼‘z‰»ŠÖ˜AƒpƒbƒP[ƒWƒCƒ“ƒXƒg[ƒ‹
+â– KVMã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
+â– ä»®æƒ³åŒ–é–¢é€£ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 yum -y groupinstall "Virtualization Host"
 yum -y install virt-install virt-top '*guestf*'
 systemctl start libvirtd
@@ -14,7 +14,7 @@ systemctl enable network
 cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-br0
 
 
-### ‚à‚Æ‚à‚Æ‚Ìİ’è‚Í‚¾‚¢‚½‚¢c‚·(UUID‚Æ‚©‚ÍÁ‚µ‚½‚æ‚¤‚È)
+### ã‚‚ã¨ã‚‚ã¨ã®è¨­å®šã¯ã ã„ãŸã„æ®‹ã™(UUIDã¨ã‹ã¯æ¶ˆã—ãŸã‚ˆã†ãª)
 vi /etc/sysconfig/network-scripts/ifcfg-br0
 --
 TYPE=Bridge
@@ -38,12 +38,12 @@ ONBOOT="yes"
 
 vi /etc/sysconfig/libvirt-guests
 --
-ON_SHUTDOWN=shutdown@©@ƒzƒXƒg’â~‚ÉƒQƒXƒg‚à’â~‚·‚é
-SHUTDOWN_TIMEOUT=300@©@ƒQƒXƒg’â~ŠÄ‹ŠÔ¦‚±‚ÌŠÔ‚ğ’´‚¦‚Ä‚àƒQƒXƒg‚ª’â~‚µ‚È‚¢ê‡‚ÍƒQƒXƒg‚ğ‹­§’â~‚·‚é
+ON_SHUTDOWN=shutdownã€€â†ã€€ãƒ›ã‚¹ãƒˆåœæ­¢æ™‚ã«ã‚²ã‚¹ãƒˆã‚‚åœæ­¢ã™ã‚‹
+SHUTDOWN_TIMEOUT=300ã€€â†ã€€ã‚²ã‚¹ãƒˆåœæ­¢ç›£è¦–æ™‚é–“â€»ã“ã®æ™‚é–“ã‚’è¶…ãˆã¦ã‚‚ã‚²ã‚¹ãƒˆãŒåœæ­¢ã—ãªã„å ´åˆã¯ã‚²ã‚¹ãƒˆã‚’å¼·åˆ¶åœæ­¢ã™ã‚‹
 --
 
 
-### ƒlƒbƒgƒ[ƒN‚ÌÄ‹N“®
+### ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®å†èµ·å‹•
 systemctl restart network
 
 brctl show
@@ -55,8 +55,8 @@ curl -LO http://ftp.riken.jp/Linux/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-M
 # curl -LO http://ftp.iij.ad.jp/pub/linux/centos/7/os/x86_64/
 
 
-### ‰¼‘zƒfƒBƒXƒN‚Ìì¬(•Ê‚É‚â‚ç‚È‚­‚Ä‚à‚¢‚¢)
-qemu-img create -f qcow2 /var/lib/libvirt/images/centos.img 100G
+### ä»®æƒ³ãƒ‡ã‚£ã‚¹ã‚¯ã®ä½œæˆ(åˆ¥ã«ã‚„ã‚‰ãªãã¦ã‚‚ã„ã„)
+qemu-img create -f qcow2 /var/lib/libvirt/images/centos.img 5G
 
 
 virt-install  --connect=qemu:///system \
@@ -69,32 +69,25 @@ virt-install  --connect=qemu:///system \
 --extra-args="console=tty0 console=ttyS0,115200n8"
 
 
-
-
-
-
 #############
 virt-install --connect=qemu:///system \
---name=centos \
---vcpus=1 \
+--name=kvm \
+--vcpus=2 \
 --ram=65536 \
---network=bridge:br0 \
+--network bridge=br0 \
 --disk path=/var/lib/libvirt/images/centos.img,size=100,format=qcow2 \
 --location='/dev/sr0' \
---network bridge=br0 \
 --nographics \
---arch=x86_64 \
---os-type=linux \
---extra-args='ip=192.168.100.11 netmask=255.255.255.0 gateway=192.168.100.1 console=tty0 console=ttyS0,115200n8' \
---graphics none
+--nographics \
+--extra-args="console=tty0 console=ttyS0,115200n8"
 #############
 
 
 
-# KVM‚ÌƒXƒ^[ƒg
+# KVMã®ã‚¹ã‚¿ãƒ¼ãƒˆ
 virsh start centos
 
 virsh console centos
 
-# KVM‚ÌƒŠƒXƒg
+# KVMã®ãƒªã‚¹ãƒˆ
 virsh list --all
