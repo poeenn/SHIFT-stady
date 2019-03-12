@@ -1,0 +1,33 @@
+Sunny@5315
+
+
+
+[OS]
+ansibleインストールまで
+modprob | grep kvm
+ →kvm-intelを確認
+lsmod | grep kvm
+ →kvmを確認
+lscpu 
+ →hypervisor kvm , virtualization fullを確認
+
+[ネットワーク]
+デバイス名、IF名、ifcfg-そろえる
+
+・ens33  (Internet接続用)
+・IP
+10.0.2.10/24
+・gateway
+10.0.2.2/24
+・DNS
+routerのやつ
+
+・ens35  (private)
+172.16.107.10/24
+・gateway
+なし
+・DNS
+なし
+
+[ユーザ]
+rootのみ

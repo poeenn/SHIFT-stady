@@ -1,0 +1,18 @@
+keyboard --vckeymap=jp106 --xlayouts="jp106"
+lang en_US.UTF-8
+rootpw root
+timezone Asia/Tokyo
+bootloader --location=mbr --boot-drive=vda
+cmdline
+network --bootproto=static --device=ens66 --gateway=192.168.100.1 --ip=192.168.100.100 --netmask=255.255.255.0 --noipv6 --onboot=yes --activate
+bootloader --append=" crashkernel=auto" --location=mbr --boot-drive=sda
+clearpart --all --initlabel --drives=sda
+part pv.295 --fstype="lvmpv" --ondisk=sda --size=1    --grow
+part /boot  --fstype="xfs"   --ondisk=sda --size=500  --label=boot
+volgroup rootvg --pesize=4096 pv.295
+logvol swap  --fstype="swap" --size=256        --name=swaplv --vgname=rootvg
+logvol /home --fstype="xfs"  --size=100        --name=homelv --vgname=rootvg --label="home" 
+logvol /     --fstype="xfs"  --size=1   --grow --name=rootlv --vgname=rootvg --label="root" 
+%packages
+@core
+%end

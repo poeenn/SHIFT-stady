@@ -1,0 +1,64 @@
+virt-install --connect=qemu:///system \
+--name test \
+--memory 2048 \
+--vcpus 1 \
+--disk path=/tmp/test,size=5 \
+--location /tmp/CentOS-7-x86_64-Minimal-1810.iso \
+--nographics \
+--network network=default \
+--extra-args="console=tty0 console=ttyS0,115200n8"
+
+
+
+
+virt-install  --connect=qemu:///system \
+--name=centos \
+--location /tmp/CentOS-7-x86_64-Minimal-1810.iso \
+--disk path=/tmp/centos,size=5,format=qcow2 \
+--vcpus=1 --ram=2048 \
+--network bridge=virbr0 \
+--nographics \
+--extra-args="console=tty0 console=ttyS0,115200n8"
+
+
+
+
+
+virt-install --connect=qemu:///system \
+--name=te20 \
+--location /tmp/CentOS-7-x86_64-Minimal-1810.iso \
+--disk path=/tmp/te20,size=5,format=qcow2 \
+--vcpus=2 --ram=1024 \
+--network network=default \
+--nographics \
+--initrd-inject ks.cfg \
+--extra-args "ks=file:/ks.cfg console=tty0 console=ttyS0,115200n8"
+
+
+
+
+
+
+
+
+virt-install --connect=qemu:///system \
+--name=test23 \
+--location /tmp/CentOS-7-x86_64-Minimal-1810.iso \
+--disk path=/tmp/test23,size=5,format=qcow2 \
+--vcpus=2 --ram=2048 \
+--network network=default \
+--location /tmp/CentOS-7-x86_64-Minimal-1810.iso 
+
+
+
+virt-install --connect=qemu:///system \
+--name te \
+--location /tmp/CentOS-7-x86_64-Minimal-1810.iso \
+--disk path=/tmp/te,size=5,format=qcow2 \
+--vcpus 3 \
+--ram 2048 \
+--network network=default \
+--graphics vnc,listen=0.0.0.0 \
+--noautoconsole 
+
+ 

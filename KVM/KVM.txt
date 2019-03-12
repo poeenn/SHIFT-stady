@@ -1,0 +1,100 @@
+■KVMインストール
+■仮想化関連パッケージインストール
+yum -y groupinstall "Virtualization Host"
+yum -y install virt-install virt-top '*guestf*'
+systemctl start libvirtd
+systemctl enable libvirtd
+
+systemctl stop NetworkManager
+systemctl start network
+systemctl disable NetworkManager
+systemctl enable network
+
+
+cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-br0
+
+
+### もともとの設定はだいたい残す(UUIDとかは消したような)
+vi /etc/sysconfig/network-scripts/ifcfg-br0
+--
+TYPE=Bridge
+NAME=br0
+DEVICE=br0
+ONBOOT=yes
+...
+--
+
+
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+--
+TYPE="Ethernet"
+BRIDGE=br0
+NAME="eth0"
+UUID="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+DEVICE="eth0"
+ONBOOT="yes"
+--
+
+
+vi /etc/sysconfig/libvirt-guests
+--
+ON_SHUTDOWN=shutdown　←　ホスト停止時にゲストも停止する
+SHUTDOWN_TIMEOUT=300　←　ゲスト停止監視時間※この時間を超えてもゲストが停止しない場合はゲストを強制停止する
+--
+
+
+### ネットワークの再起動
+systemctl restart network
+
+brctl show
+ip a show br0
+
+
+cd /tmp
+curl -LO http://ftp.riken.jp/Linux/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso
+# curl -LO http://ftp.iij.ad.jp/pub/linux/centos/7/os/x86_64/
+
+
+### 仮想ディスクの作成(別にやらなくてもいい)
+qemu-img create -f qcow2 /var/lib/libvirt/images/centos.img 100G
+
+
+virt-install  --connect=qemu:///system \
+--name=centos \
+--location /tmp/CentOS-7-x86_64-Minimal-1810.iso \
+--disk path=/tmp/centos,size=5,format=qcow2 \
+--vcpus=1 --ram=2048 \
+--network bridge=virbr0 \
+--nographics \
+--extra-args="console=tty0 console=ttyS0,115200n8"
+
+
+
+
+
+
+#############
+virt-install --connect=qemu:///system \
+--name=centos \
+--vcpus=1 \
+--ram=65536 \
+--network=bridge:br0 \
+--disk path=/var/lib/libvirt/images/centos.img,size=100,format=qcow2 \
+--location='/dev/sr0' \
+--network bridge=br0 \
+--nographics \
+--arch=x86_64 \
+--os-type=linux \
+--extra-args='ip=192.168.100.11 netmask=255.255.255.0 gateway=192.168.100.1 console=tty0 console=ttyS0,115200n8' \
+--graphics none
+#############
+
+
+
+# KVMのスタート
+virsh start centos
+
+virsh console centos
+
+# KVMのリスト
+virsh list --all

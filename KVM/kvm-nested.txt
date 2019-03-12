@@ -1,0 +1,19 @@
+ cat /proc/cpuinfo | grep vmx
+ 
+ cat /sys/module/kvm_intel/parameters/nested
+ 
+ echo options kvm_intel nested=1 >> /etc/modprobe.d/kvm-nested.conf
+ modprobe -r kvm_intel
+ 
+ modprobe  kvm_intel
+ 
+ cat /sys/module/kvm_intel/parameters/nested
+ 
+ 
+ virt-install --connect=qemu:///system \
+     --name=kstartvm --vcpus=3 --ram=4096 \
+     --disk=/var/lib/libvirt/images/kstartvm.qcow2,format=qcow2 \
+     --location='http://ftp.iij.ad.jp/pub/linux/centos/7.6.1810/os/x86_64/' \
+     --nographics --extra-args='ks=ks.cfg console=tty0 console=ttyS0,115200n8 keymap=ja'
+
+     

@@ -1,0 +1,17 @@
+keyboard --vckeymap=jp106 --xlayouts="jp106"
+lang en_US.UTF-8
+clearpart -all -initlabel
+autopart -type=plain
+rootpw -plaintext root
+timezone Asia/Tokyo
+bootloader -location=mbr
+cmdline
+network -bootproto=static -ip=10.0.2.10 -netmask=255.255.255.0 -gateway=10.0.2.2 -device=ens33
+network -bootproto=static -ip=172.16.107.10 -netmask=255.255.255.0 -device=ens35
+reboot
+install
+url -url=http://ftp.iij.ad.jp/pub/linux/centos/7/os/x86_64/
+%packages
+core
+kexec-tools
+%end
