@@ -1,5 +1,8 @@
 ■KVMインストール
 ■仮想化関連パッケージインストール
+yum install -y epel-release
+yum -y install libguestfs libvirt libvirt-client python-virtinst qemu-kvm virt-manager virt-top virt-viewer virt-who virt-install bridge-utils libvirt-devel gcc patch wget
+yum update -y
 yum -y groupinstall "Virtualization Host"
 yum -y install virt-install virt-top '*guestf*'
 systemctl start libvirtd
