@@ -1,0 +1,49 @@
+yum -y install net-tools
+yum -y update
+
+
+nmcli dev
+#interfaceが正しく認識されているか（名前があっているか）確認
+nmcli con
+
+#もし違う場合は以下で元の名前からeth1に変える
+nmcli con mod "eno0" connection.id ens33 connection.interface-name ens33
+nmcli con mod "eno1" connection.id ens35 connection.interface-name ens35
+
+
+mv /etc/sysconfig/network-scripts/ifcfg-eno0 /etc/sysconfig/network-scripts/ifcfg-ens33
+mv /etc/sysconfig/network-scripts/ifcfg-eno1 /etc/sysconfig/network-scripts/ifcfg-ens35
+
+
+systemctl network restart
+reboot
+
+
+
+#bear1用
+nmcli c mod ens33 ipv4.method manual ipv4.addresses "172.16.107.10"/24 
+
+#bear2用
+nmcli c mod ens35 ipv4.method manual ipv4.addresses "172.16.107.20"/24 
+
+
+
+------------------------
+#bear3用
+nmcli c modify eth1 ipv4.addresses "192.168.20.3"/24 
+
+#bear4用
+nmcli c modify eth1 ipv4.addresses "192.168.20.4"/24 
+
+#bear5用
+nmcli c modify eth1 ipv4.addresses "192.168.20.5"/24 
+
+
+nmcli con mod eth1 connection.autoconnect "yes"
+nmcli con mod eth1 ipv4.method manual 
+
+nmcli c up eth1
+
+------------------------
+
+
