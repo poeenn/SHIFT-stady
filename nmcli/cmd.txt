@@ -1,0 +1,20 @@
+vi /etc/default/grub
+net.ifnames=0 biosdevname=0
+
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
+reboot
+
+
+nmcli con mod "Wired connection 1" connection.id ens33 connection.interface-name ens33
+nmcli con mod "Wired connection 2" connection.id ens35 connection.interface-name ens35
+
+
+nmcli con mod eth1 connection.id ens34 connection.interface-name ens34
+
+
+
+
+nmcli con delete 
