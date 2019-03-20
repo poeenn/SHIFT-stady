@@ -43,3 +43,15 @@ ssh root@192.168.20.5
 4→5
 5→3
 5→4
+
+
+ timedatectl status
+ timedatectl set-timezone asia/tokyo
+ timedatectl status
+
+ cp -p /etc/chrony.conf /etc/chrony.conf.bk
+     server 192.168.20.1 iburst
+
+
+
+
