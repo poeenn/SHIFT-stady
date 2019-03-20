@@ -1,3 +1,9 @@
+OS install
+・外付けDVD接続
+・reboot
+・ロゴ出たらF6
+・もろもろ設定
+
 ntp 1号機
 192.168.20.1
 
@@ -21,35 +27,53 @@ eno2
 
 
 
+#3
+nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.3"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes"
+nmcli c m eno2 ipv4.method manual ipv4.addresses "172.16.107.3"/24 connection.id eno2 connection.interface-name eno2 connection.autoconnect "yes"
 
-#bear1
-ssh-copy-id -i /home/root/.ssh/id_rsa.pub root@192.168.20.3
-ssh-copy-id -i /home/root/.ssh/id_rsa.pub root@192.168.20.4
-ssh-copy-id -i /home/root/.ssh/id_rsa.pub root@192.168.20.5
+
+#4
+nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.4"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes"
+
+nmcli c m eno2 ipv4.method manual ipv4.addresses "172.16.107.4"/24 connection.id eno2 connection.interface-name eno2 connection.autoconnect "yes"
+
+#5
+nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.5"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes"
+
+nmcli c m eno2 ipv4.method manual ipv4.addresses "172.16.107.5"/24 connection.id eno2 connection.interface-name eno2 connection.autoconnect "yes"
+
+
+#bear3
+ssh-keygen
+ssh-copy-id -o StrictHostKeyChecking=no -i /home/root/.ssh/id_rsa.pub root@192.168.20.3
+ssh-copy-id -o StrictHostKeyChecking=no -i /home/root/.ssh/id_rsa.pub root@192.168.20.4
+ssh-copy-id -o StrictHostKeyChecking=no -i /home/root/.ssh/id_rsa.pub root@192.168.20.5
 
 scp -r ~/.ssh/id_rsa root@192.168.20.3:/root/.ssh/id_rsa
 scp -r ~/.ssh/id_rsa root@192.168.20.4:/root/.ssh/id_rsa
 scp -r ~/.ssh/id_rsa root@192.168.20.5:/root/.ssh/id_rsa
 
+ssh-keyscan -H 172.16.107.3 >> ~/.ssh/known_hosts
+ssh-keyscan -H 172.16.107.4 >> ~/.ssh/known_hosts
+ssh-keyscan -H 172.16.107.5 >> ~/.ssh/known_hosts
+
+ssh 192.168.20.3
+ssh 192.168.20.4
+ssh 192.168.20.5
+
+ssh 172.16.107.3
+ssh 172.16.107.4
+ssh 172.16.107.5
 
 
-ssh root@192.168.20.3
-ssh root@192.168.20.4
-ssh root@192.168.20.5
-
-3→4
-3→5
-4→3
-4→5
-5→3
-5→4
-
-
+#time zone
  timedatectl status
  timedatectl set-timezone asia/tokyo
  timedatectl status
 
- cp -p /etc/chrony.conf /etc/chrony.conf.bk
+
+#NTP
+cp -p /etc/chrony.conf /etc/chrony.conf.bk
      server 192.168.20.1 iburst
 
 
