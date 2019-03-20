@@ -1,0 +1,45 @@
+ntp 1号機
+192.168.20.1
+
+#bear3
+eno1 
+192.168.20.3
+eno2
+172.16.107.3
+
+#bear4
+eno1 
+192.168.20.4
+eno2
+172.16.107.4
+
+#bear5
+eno1 
+192.168.20.5
+eno2
+172.16.107.5
+
+
+
+
+#bear1
+ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub root@192.168.20.3
+ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub root@192.168.20.4
+ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub root@192.168.20.5
+
+scp -r ~/.ssh/id_rsa.pub root@192.168.20.3:/root/.ssh/id_rsa.pub
+scp -r ~/.ssh/id_rsa.pub root@192.168.20.4:/root/.ssh/id_rsa.pub
+scp -r ~/.ssh/id_rsa.pub root@192.168.20.5:/root/.ssh/id_rsa.pub
+
+
+
+ssh root@192.168.20.3
+ssh root@192.168.20.4
+ssh root@192.168.20.5
+
+3→4
+3→5
+4→3
+4→5
+5→3
+5→4
