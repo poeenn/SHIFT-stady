@@ -1,8 +1,12 @@
 OS install
-・外付けDVD接続
-・reboot
-・ロゴ出たらF6
-・もろもろ設定
+■外付けDVD接続
+■reboot
+■ロゴ出たらF6
+■もろもろ設定
+・Time/Zone
+・ディスク
+・ネットワーク
+・rootパスワード
 
 ntp 1号機
 192.168.20.1
@@ -28,17 +32,17 @@ eno2
 
 
 #3
-nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.3"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes"
+nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.3"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes" ipv4.gateway 192.168.20.101  ipv4.dns 192.168.20.101
 nmcli c m eno2 ipv4.method manual ipv4.addresses "172.16.107.3"/24 connection.id eno2 connection.interface-name eno2 connection.autoconnect "yes"
 
 
 #4
-nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.4"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes"
+nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.4"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes" ipv4.gateway 192.168.20.101  ipv4.dns 192.168.20.101
 
 nmcli c m eno2 ipv4.method manual ipv4.addresses "172.16.107.4"/24 connection.id eno2 connection.interface-name eno2 connection.autoconnect "yes"
 
 #5
-nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.5"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes"
+nmcli c m eno1 ipv4.method manual ipv4.addresses "192.168.20.5"/24 connection.id eno1 connection.interface-name eno1 connection.autoconnect "yes" ipv4.gateway 192.168.20.101  ipv4.dns 192.168.20.101
 
 nmcli c m eno2 ipv4.method manual ipv4.addresses "172.16.107.5"/24 connection.id eno2 connection.interface-name eno2 connection.autoconnect "yes"
 
