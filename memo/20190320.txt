@@ -23,13 +23,13 @@ eno2
 
 
 #bear1
-ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub root@192.168.20.3
-ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub root@192.168.20.4
-ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub root@192.168.20.5
+ssh-copy-id -i /home/root/.ssh/id_rsa.pub root@192.168.20.3
+ssh-copy-id -i /home/root/.ssh/id_rsa.pub root@192.168.20.4
+ssh-copy-id -i /home/root/.ssh/id_rsa.pub root@192.168.20.5
 
-scp -r ~/.ssh/id_rsa.pub root@192.168.20.3:/root/.ssh/id_rsa.pub
-scp -r ~/.ssh/id_rsa.pub root@192.168.20.4:/root/.ssh/id_rsa.pub
-scp -r ~/.ssh/id_rsa.pub root@192.168.20.5:/root/.ssh/id_rsa.pub
+scp -r ~/.ssh/id_rsa root@192.168.20.3:/root/.ssh/id_rsa
+scp -r ~/.ssh/id_rsa root@192.168.20.4:/root/.ssh/id_rsa
+scp -r ~/.ssh/id_rsa root@192.168.20.5:/root/.ssh/id_rsa
 
 
 
