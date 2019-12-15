@@ -1,33 +1,29 @@
-Sunny@5315
-
-
-
 [OS]
-ansibleƒCƒ“ƒXƒg[ƒ‹‚Ü‚Å
+ansibleã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã¾ã§
 modprob | grep kvm
- ¨kvm-intel‚ğŠm”F
+ â†’kvm-intelã‚’ç¢ºèª
 lsmod | grep kvm
- ¨kvm‚ğŠm”F
+ â†’kvmã‚’ç¢ºèª
 lscpu 
- ¨hypervisor kvm , virtualization full‚ğŠm”F
+ â†’hypervisor kvm , virtualization fullã‚’ç¢ºèª
 
-[ƒlƒbƒgƒ[ƒN]
-ƒfƒoƒCƒX–¼AIF–¼Aifcfg-‚»‚ë‚¦‚é
+[ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯]
+ãƒ‡ãƒã‚¤ã‚¹åã€IFåã€ifcfg-ãã‚ãˆã‚‹
 
-Eens33  (InternetÚ‘±—p)
-EIP
+ãƒ»ens33  (Internetæ¥ç¶šç”¨)
+ãƒ»IP
 10.0.2.10/24
-Egateway
+ãƒ»gateway
 10.0.2.2/24
-EDNS
-router‚Ì‚â‚Â
+ãƒ»DNS
+routerã®ã‚„ã¤
 
-Eens35  (private)
+ãƒ»ens35  (private)
 172.16.107.10/24
-Egateway
-‚È‚µ
-EDNS
-‚È‚µ
+ãƒ»gateway
+ãªã—
+ãƒ»DNS
+ãªã—
 
-[ƒ†[ƒU]
-root‚Ì‚İ
+[ãƒ¦ãƒ¼ã‚¶]
+rootã®ã¿
